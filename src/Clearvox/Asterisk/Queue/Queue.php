@@ -934,7 +934,7 @@ class Queue
             }
 
             if(is_bool($value)) {
-                return $key . '=' . ($value ? 'yes' : 'no');
+                return $key . '=' . ($value ? 'yes' : 'no') . PHP_EOL;
             }
 
             // Its a basic value, use that
