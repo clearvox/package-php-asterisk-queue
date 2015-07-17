@@ -168,7 +168,7 @@ class Queue
     const ANNOUNCE_HOLD_POSITION_YES   = 'yes';
     const ANNOUNCE_HOLD_POSITION_NO    = 'no';
     const ANNOUNCE_HOLD_POSITION_LIMIT = 'limit';
-    const ANNOUNCE_HOLD_POSITION_HOLD  = 'hold';
+    const ANNOUNCE_HOLD_POSITION_MORE  = 'more';
 
     /**
      * @var boolean
