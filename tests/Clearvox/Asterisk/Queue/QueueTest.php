@@ -25,12 +25,14 @@ class QueueTest extends PHPUnit_Framework_TestCase
             ->setTimeout(15)
             ->setContext('example-context')
             ->setAnnounce('beep')
-            ->setAnnounceHoldPosition(Queue::ANNOUNCE_HOLD_POSITION_YES);
+            ->setAnnounceHoldPosition(Queue::ANNOUNCE_HOLD_POSITION_YES)
+            ->setReportHoldTime(true);
 
         $expected  = "[support]" . PHP_EOL;
         $expected .= "announce=beep" . PHP_EOL;
         $expected .= "announce-position=yes" . PHP_EOL;
         $expected .= "context=example-context" . PHP_EOL;
+        $expected .= "reportholdtime=yes" . PHP_EOL;
         $expected .= "timeout=15" . PHP_EOL;
 
         $this->assertEquals($expected, $this->queue->toString());
