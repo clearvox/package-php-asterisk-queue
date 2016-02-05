@@ -218,6 +218,11 @@ class Queue
      */
     protected $members = array();
 
+    /**
+     * @var bool
+     */
+    protected $reportHoldTime;
+
     public function __construct($name)
     {
         $this->name = $name;
@@ -903,6 +908,24 @@ class Queue
         return $this->members;
     }
 
+    /**
+     * @return boolean
+     */
+    public function isReportHoldTime()
+    {
+        return $this->reportHoldTime;
+    }
+
+    /**
+     * @param boolean $reportHoldTime
+     * @returns $this
+     */
+    public function setReportHoldTime($reportHoldTime)
+    {
+        $this->reportHoldTime = $reportHoldTime;
+        return $this;
+    }
+
     public function toString()
     {
         $ignore = [
@@ -927,7 +950,8 @@ class Queue
             'announceRoundSeconds'      => 'announce-round-seconds',
             'periodicAnnounce'          => 'periodic-announce',
             'monitorFormat'             => 'monitor-format',
-            'monitorType'               => 'monitor-type'
+            'monitorType'               => 'monitor-type',
+            'reportHoldTime'            => 'reportholdtime',
         ];
 
         $propValue = function($property, $value) use ($ignore, $differences){
