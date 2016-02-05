@@ -206,6 +206,14 @@ class Queue
     protected $monitorType;
 
     /**
+     * @var string
+     */
+    protected $ringInUse;
+
+    const RING_IN_USE_YES = 'yes';
+    const RING_IN_USE_NO  = 'no';
+
+    /**
      * @var array
      */
     protected $members = array();
@@ -853,6 +861,24 @@ class Queue
     {
         $this->monitorType = $monitorType;
         return $this;
+    }
+
+    /**
+     * @param string $ringInUse
+     * @return $this
+     */
+    public function setRingInUse($ringInUse)
+    {
+        $this->ringInUse = $ringInUse;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRingInUse()
+    {
+        return $this->ringInUse;
     }
 
     /**

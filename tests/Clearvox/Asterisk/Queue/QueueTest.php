@@ -78,4 +78,15 @@ class QueueTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $this->queue->toString());
     }
+
+    public function testQueueWithRingInUse()
+    {
+        $this->queue
+            ->setRingInUse(Queue::RING_IN_USE_YES);
+
+        $expected  = "[support]" . PHP_EOL;
+        $expected .= "ringinuse=yes" . PHP_EOL;
+
+        $this->assertEquals($expected, $this->queue->toString());
+    }
 }
