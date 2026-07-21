@@ -29,12 +29,12 @@ class Member
     protected $ringInUse;
 
     /**
-     * @var int
+     * @var int|null
      */
     protected $wrapupTime;
 
     /**
-     * @var bool
+     * @var bool|null
      */
     protected $paused;
 
@@ -134,7 +134,7 @@ class Member
     }
 
     /**
-     * @return null
+     * @return int|null
      */
     public function getWrapupTime()
     {
@@ -142,7 +142,7 @@ class Member
     }
 
     /**
-     * @param null $wrapupTime
+     * @param int|null $wrapupTime
      * @return Member
      */
     public function setWrapupTime($wrapupTime)
@@ -152,7 +152,7 @@ class Member
     }
 
     /**
-     * @return null
+     * @return bool|null
      */
     public function getPaused()
     {
