@@ -32,4 +32,40 @@ class MemberTest extends PHPUnit_Framework_TestCase
             $this->member->toString()
         );
     }
+
+    public function testToStringWithPausedOnly()
+    {
+        $this->member->setPaused(true);
+
+        $this->assertEquals(
+            'member => Local/1000,,,,,,1',
+            $this->member->toString()
+        );
+    }
+
+    public function testToStringWithPausedFalse()
+    {
+        $this->member->setPaused(false);
+
+        $this->assertEquals(
+            'member => Local/1000,,,,,,0',
+            $this->member->toString()
+        );
+    }
+
+    public function testToStringWithAllFields()
+    {
+        $this->member
+            ->setMemberName('John Smith')
+            ->setPenalty(10)
+            ->setRingInUse(true)
+            ->setStateInterface('SIP/2000')
+            ->setWrapupTime(30)
+            ->setPaused(true);
+
+        $this->assertEquals(
+            'member => Local/1000,10,John Smith,SIP/2000,yes,30,1',
+            $this->member->toString()
+        );
+    }
 }
