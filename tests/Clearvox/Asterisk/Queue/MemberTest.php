@@ -68,4 +68,23 @@ class MemberTest extends PHPUnit_Framework_TestCase
             $this->member->toString()
         );
     }
+
+    public function testToStringWithWrapupTimeOnly()
+    {
+        $this->member->setWrapupTime(30);
+
+        $this->assertEquals(
+            'member => Local/1000,,,,,30',
+            $this->member->toString()
+        );
+    }
+
+    public function testSetPausedNullUnsetsTheField()
+    {
+        $this->member->setPaused(true);
+        $this->member->setPaused(null);
+
+        $this->assertNull($this->member->getPaused());
+        $this->assertEquals('member => Local/1000', $this->member->toString());
+    }
 }

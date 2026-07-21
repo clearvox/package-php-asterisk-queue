@@ -160,12 +160,12 @@ class Member
     }
 
     /**
-     * @param boolean $paused
+     * @param boolean|null $paused Null unsets (omits the field), matching the constructor.
      * @return Member
      */
     public function setPaused($paused)
     {
-        $this->paused = (boolean)$paused;
+        $this->paused = is_null($paused) ? null : (boolean)$paused;
         return $this;
     }
 
