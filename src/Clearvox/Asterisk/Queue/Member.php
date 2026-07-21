@@ -52,8 +52,8 @@ class Member
         $this->memberName     = $memberName;
         $this->stateInterface = $stateInterface;
         $this->ringInUse      = $ringInUse;
-        $this->wrapupTime     = $wrapupTime;
-        $this->paused         = $paused;
+        $this->wrapupTime     = is_null($wrapupTime) ? null : (int)$wrapupTime;
+        $this->paused         = is_null($paused) ? null : (boolean)$paused;
     }
 
     public function getInterface()
