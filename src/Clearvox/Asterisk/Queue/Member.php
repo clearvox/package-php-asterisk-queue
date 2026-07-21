@@ -28,18 +28,32 @@ class Member
      */
     protected $ringInUse;
 
+    /**
+     * @var int|null
+     */
+    protected $wrapupTime;
+
+    /**
+     * @var bool|null
+     */
+    protected $paused;
+
     public function __construct(
         $interface,
         $penalty = null,
         $memberName = null,
         $stateInterface = null,
-        $ringInUse = null
+        $ringInUse = null,
+        $wrapupTime = null,
+        $paused = null
     ) {
         $this->interface      = $interface;
         $this->penalty        = $penalty;
         $this->memberName     = $memberName;
         $this->stateInterface = $stateInterface;
         $this->ringInUse      = $ringInUse;
+        $this->wrapupTime     = is_null($wrapupTime) ? null : (int)$wrapupTime;
+        $this->paused         = is_null($paused) ? null : (boolean)$paused;
     }
 
     public function getInterface()
@@ -119,31 +133,88 @@ class Member
         return $this;
     }
 
+    /**
+     * @return int|null
+     */
+    public function getWrapupTime()
+    {
+        return $this->wrapupTime;
+    }
+
+    /**
+     * @param int|null $wrapupTime
+     * @return Member
+     */
+    public function setWrapupTime($wrapupTime)
+    {
+        $this->wrapupTime = $wrapupTime;
+        return $this;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getPaused()
+    {
+        return $this->paused;
+    }
+
+    /**
+     * @param boolean|null $paused Null unsets (omits the field), matching the constructor.
+     * @return Member
+     */
+    public function setPaused($paused)
+    {
+        $this->paused = is_null($paused) ? null : (boolean)$paused;
+        return $this;
+    }
+
     public function toString()
     {
-        if(!is_null($this->ringInUse)) {
-            $line[0] = ($this->ringInUse ? 'yes' : 'no');
+        // Asterisk's static member fields, in positional order, are:
+        // interface,penalty,membername,state_interface,ringinuse,wrapuptime,paused
+        // Fields below the highest one actually set must be emitted (even if empty)
+        // to keep every later field in its correct position.
+        if (!is_null($this->paused)) {
+            $line[0] = ($this->paused ? '1' : '0');
             $line[1] = null;
             $line[2] = null;
             $line[3] = null;
+            $line[4] = null;
+            $line[5] = null;
+        }
+
+        if (!is_null($this->wrapupTime)) {
+            $line[1] = $this->wrapupTime;
+            $line[2] = null;
+            $line[3] = null;
+            $line[4] = null;
+            $line[5] = null;
+        }
+
+        if(!is_null($this->ringInUse)) {
+            $line[2] = ($this->ringInUse ? 'yes' : 'no');
+            $line[3] = null;
+            $line[4] = null;
+            $line[5] = null;
         }
 
         if (!is_null($this->stateInterface)) {
-            $line[1] = $this->stateInterface;
-            $line[2] = null;
-            $line[3] = null;
+            $line[3] = $this->stateInterface;
+            $line[4] = null;
+            $line[5] = null;
         }
 
         if (!is_null($this->memberName)) {
-            $line[2] = $this->memberName;
-            $line[3] = null;
+            $line[4] = $this->memberName;
+            $line[5] = null;
         }
 
         if (!is_null($this->penalty)) {
-            $line[3] = $this->penalty;
+            $line[5] = $this->penalty;
         }
 
-        $line[4] = $this->interface;
+        $line[6] = $this->interface;
 
         return 'member => ' . implode(',', array_reverse($line));
     }
