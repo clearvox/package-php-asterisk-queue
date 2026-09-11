@@ -142,6 +142,11 @@ class Queue
     protected $periodicAnnounceFrequency;
 
     /**
+     * @var int
+     */
+    protected $periodicAnnounceStartDelay;
+
+    /**
      * @var boolean
      */
     protected $randomPeriodicAnnounce;
@@ -671,6 +676,24 @@ class Queue
     }
 
     /**
+     * @return int
+     */
+    public function getPeriodicAnnounceStartDelay()
+    {
+        return $this->periodicAnnounceStartDelay;
+    }
+
+    /**
+     * @param int $periodicAnnounceStartDelay
+     * @return Queue
+     */
+    public function setPeriodicAnnounceStartDelay($periodicAnnounceStartDelay)
+    {
+        $this->periodicAnnounceStartDelay = $periodicAnnounceStartDelay;
+        return $this;
+    }
+
+    /**
      * @return boolean
      */
     public function isRandomPeriodicAnnounce()
@@ -933,28 +956,34 @@ class Queue
         ];
 
         $differences = [
-            'autopauseUnavailable'      => 'autopauseunvail',
-            'maxLength'                 => 'maxlen',
-            'interfaceVariables'        => 'setinterfacevar',
-            'queueEntryVariables'       => 'setqueueentryvar',
-            'queueVariables'            => 'setqueuevar',
-            'announceFrequency'         => 'announce-frequency',
-            'minimumAnnounceFrequency'  => 'min-announce-frequency',
-            'periodicAnnounceFrequency' => 'periodic-announce-frequency',
-            'randomPeriodicAnnounce'    => 'random-periodic-announce',
-            'relativePeriodicAnnounce'  => 'relative-periodic-announce',
-            'announceHoldTime'          => 'announce-holdtime',
-            'announceHoldPosition'      => 'announce-position',
-            'announceToFirstUser'       => 'announce-to-first-user',
-            'announcePositionLimit'     => 'announce-position-limit',
-            'announceRoundSeconds'      => 'announce-round-seconds',
-            'periodicAnnounce'          => 'periodic-announce',
-            'monitorFormat'             => 'monitor-format',
-            'monitorType'               => 'monitor-type',
-            'reportHoldTime'            => 'reportholdtime',
+            'autopauseUnavailable'       => 'autopauseunvail',
+            'maxLength'                  => 'maxlen',
+            'interfaceVariables'         => 'setinterfacevar',
+            'queueEntryVariables'        => 'setqueueentryvar',
+            'queueVariables'             => 'setqueuevar',
+            'announceFrequency'          => 'announce-frequency',
+            'minimumAnnounceFrequency'   => 'min-announce-frequency',
+            'periodicAnnounceFrequency'  => 'periodic-announce-frequency',
+            'periodicAnnounceStartDelay' => 'periodic-announce-startdelay',
+            'randomPeriodicAnnounce'     => 'random-periodic-announce',
+            'relativePeriodicAnnounce'   => 'relative-periodic-announce',
+            'announceHoldTime'           => 'announce-holdtime',
+            'announceHoldPosition'       => 'announce-position',
+            'announceToFirstUser'        => 'announce-to-first-user',
+            'announcePositionLimit'      => 'announce-position-limit',
+            'announceRoundSeconds'       => 'announce-round-seconds',
+            'periodicAnnounce'           => 'periodic-announce',
+            'monitorFormat'              => 'monitor-format',
+            'monitorType'                => 'monitor-type',
+            'reportHoldTime'             => 'reportholdtime',
         ];
 
-        $propValue = function($property, $value) use ($ignore, $differences){
+        // Zero is a meaningful value for these, so only an unset (null) value is left out
+        $keepZero = [
+            'periodicAnnounceStartDelay',
+        ];
+
+        $propValue = function($property, $value) use ($ignore, $differences, $keepZero){
             // Is part of ignore, just return empty string
             if(in_array($property, $ignore)) {
                 return '';
@@ -988,7 +1017,7 @@ class Queue
             }
 
             // Its a basic value, use that
-            if (!empty($value)) {
+            if (!empty($value) || (in_array($property, $keepZero) && !is_null($value))) {
                 return $key . '=' . $value . PHP_EOL;
             }
 
