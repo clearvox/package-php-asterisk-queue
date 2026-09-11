@@ -102,4 +102,32 @@ class QueueTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $this->queue->toString());
     }
+
+    public function testQueueWithPeriodicAnnounceStartDelay()
+    {
+        $this->queue
+            ->setPeriodicAnnounceStartDelay(10);
+
+        $expected  = "[support]" . PHP_EOL;
+        $expected .= "periodic-announce-startdelay=10" . PHP_EOL;
+
+        $this->assertEquals($expected, $this->queue->toString());
+    }
+
+    public function testQueueOmitsUnsetPeriodicAnnounceStartDelay()
+    {
+        $this->queue
+            ->setPeriodicAnnounceStartDelay(null);
+
+        $this->assertEquals("[support]" . PHP_EOL, $this->queue->toString());
+    }
+
+    public function testQueueStillOmitsOtherZeroSettings()
+    {
+        $this->queue
+            ->setAnnounceRoundSeconds(0)
+            ->setMinimumAnnounceFrequency(0);
+
+        $this->assertEquals("[support]" . PHP_EOL, $this->queue->toString());
+    }
 }
